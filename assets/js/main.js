@@ -1,19 +1,18 @@
 $(document).ready(function(){
 
-	// Constants
-	var today = new Date();
-	var last_date = new Date("1995", "05", "16"); // June 16th, 1995
+	// Constraints
+	const today = new Date();
+	const last_date = new Date("1995", "05", "16"); // June 16th, 1995
 	
 	// Manipulated date variable
 	var date = new Date();
 
 
 	var requested_date = getUrlParameter("date");
-
 	if (requested_date != ""){
 
-		/*
 		var split_params = requested_date.split("-");
+		console.log("Split parameters: ", split_params);
 
 		var year = split_params[0];
 		var month = split_params[1];
@@ -22,9 +21,10 @@ $(document).ready(function(){
 		if ((parseInt(year) != NaN) &&(parseInt(month) != NaN) && (parseInt(day) != NaN)){
 
 			date = new Date(year, month - 1, day);
+			console.log("Parsed Date", date);
 
 		}
-		*/
+
 	}
 
 	// Date Navigation
@@ -39,10 +39,10 @@ $(document).ready(function(){
 
 		if (next_date > today){
 			// Sorry, you're trying to get too far ahead.
-			alert("Sorry, the NASA POTD API does not go that far ahead!");
+			alert("Sorry, the NASA APOD API does not go that far ahead!");
 		} else {
 			date = next_date;
-			dispayAPOD(date);
+			displayAPOD(date);
 		}
 
 	}
@@ -57,10 +57,10 @@ $(document).ready(function(){
 
 		if (previous_date < last_date){
 			// Sorry, you're trying to go too far back.
-			alert("Sorry, the NASA POTD API does not go that far back!\nThe initial date of the project was June 16th, 1995.");
+			alert("Sorry, the NASA APOD API does not go that far back!\nThe initial date of the project was June 16th, 1995.");
 		} else {
 			date = previous_date;
-			dispayAPOD(date);
+			displayAPOD(date);
 		}
 		
 	}
@@ -83,11 +83,7 @@ $(document).ready(function(){
 
 	function manageDateNavigation(){
 
-		if (date_helpers.compare(date, today)){
-			setUrlParameter("date", "");
-		} else {
-			setUrlParameter("date", (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()));
-		}
+		setUrlParameter("date", (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()));
 
 		$("#date_next_btn").prop("disabled", date_helpers.compare(date, today));
 		$("#date_previous_btn").prop("disabled", date_helpers.compare(date, last_date));
@@ -107,7 +103,7 @@ $(document).ready(function(){
 
 	// Main
 
-	function dispayAPOD(query_date){
+	function displayAPOD(query_date){
 
 		manageDateNavigation();
 
@@ -131,6 +127,12 @@ $(document).ready(function(){
 			url : query_url,
 
 			success : function(results){
+
+				if (query_date != date){
+					// When the user navigates before the previous content has loaded, there is a risk that slow-loading content will over-write the current request content when it completes.
+					// To handle this, just return and let the next API request be the one to do the rendering.
+					return;
+				}
 
 				console.log("results:", results);
 
@@ -212,7 +214,7 @@ $(document).ready(function(){
 	$(".date_modal_go").click(function(){
 		$("#Date_Modal").modal("hide");
 		date = $(".plugin-bsdate").datepicker("getDate");
-		dispayAPOD(date);
+		displayAPOD(date);
 	})
 
 	function setDatePicker(new_date, skipUpdate){
@@ -257,7 +259,7 @@ $(document).ready(function(){
 		$("#About_Modal").modal();
 	})
 
-	dispayAPOD(date);
+	displayAPOD(date);
 		
 })
 
@@ -276,23 +278,19 @@ function getUrlParameter(parameter) {
 
 function setUrlParameter(key, value) {
 
-	var url = window.location.href;
+	var url = window.location.href + "";
 
 	var baseUrl = url.split('?')[0],
 		urlQueryString = '?' + url.split('?')[1],
 		newParam = key + '=' + value,
 		params = '?' + newParam;
 
-	// If the "search" string exists, then build params from it
-
-	console.log("urlQueryString", urlQueryString);
-
 	if (urlQueryString) {
 
 		var updateRegex = new RegExp('([\?&])' + key + '[^&]*');
 		var removeRegex = new RegExp('([\?&])' + key + '=[^&;]+[&;]?');
 
-		if (typeof value === 'undefined' || value === null || value === '') { // Remove param if value is empty
+		if (typeof value === 'undefined' || value === null || value === '' || value === "") { // Remove param if value is empty
 			params = urlQueryString.replace(removeRegex, "$1");
 			params = params.replace(/[&;]$/, "");
 
@@ -331,14 +329,19 @@ date_helpers = {
 
 		switch(lastDigit){
 			case "1":
-				return date_num + "st";
+				// 1st 11th 21st 31st
+				return date_num + ((date_num == "11") ? "th" : "st");
 			case "2":
-				return date_num + "nd";
+				// 2nd 12th 22nd 32nd
+				return date_num + ((date_num == "12") ? "th" : "nd");
 			case "3":
-				return date_num + "rd";
+				// 3rd, 13th, 23rd
+				return date_num + ((date_num == "12") ? "th" : "rd");
 			default :
 				return date_num + "th";
 		}
+
+
 	},
 	
 	compare : function(d1, d2){
