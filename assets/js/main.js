@@ -1,11 +1,18 @@
 $(document).ready(function(){
 
+	// AJAX Cache
+	var APOD_cache = {};
+	// Local browser cache for caching successful requests to the API and reducing API key uses.
+		// cache[DATE] = AJAX Response
+
 	// Constraints
 	const today = new Date();
 	const last_date = new Date("1995", "05", "16"); // June 16th, 1995
 	
 	// Manipulated date variable
 	var date = new Date();
+    
+    $(".copyright").text("Michael Rooplall © 2018-" + date.getFullYear());
 
 
 	var requested_date = getUrlParameter("date");
@@ -122,86 +129,148 @@ $(document).ready(function(){
 		var query_url = 'https://api.nasa.gov/planetary/apod?hd=' + ($("#hd_toggle").hasClass("active") ? "true" : "false") + (query_url_date ? ('&date=' + query_url_date) : '') + '&api_key=YxsdGf4qyCOyMbPqLkQQMXLOEXJHZtaYKGujuq5H'
 		console.log("Query_URL:", query_url);
 
-		$.ajax({
+		if (!query_date){
+			// Logic for setting the query_date is done after setting the query_url.
+			// This is here for the sake of caching the request locally, but not requesting a specific date from the API Service.
+			query_date = new Date();
+			query_url_date = query_date.getFullYear() + "-" + (query_date.getMonth() + 1) + "-" + query_date.getDate();
+		};
 
-			url : query_url,
+		// Cache Lookup
+		var cached_APOD_response = APOD_cache[query_date];
 
-			success : function(results){
+		if (cached_APOD_response){
 
-				if (query_date != date){
-					// When the user navigates before the previous content has loaded, there is a risk that slow-loading content will over-write the current request content when it completes.
-					// To handle this, just return and let the next API request be the one to do the rendering.
-					return;
-				}
+			console.log("Found cache results for ", query_date, " : ", cached_APOD_response);
+			displayAPOD_results(cached_APOD_response);
 
-				console.log("results:", results);
+		} else {
 
-				if (!query_date){
-					query_date = new Date();
-				};
+			$.ajax({
 
-				$(".date-p").text(date_helpers.format_month[query_date.getMonth()] + " " + date_helpers.date_prefix(query_date.getDate()) + ", " + query_date.getFullYear());
+				url : query_url,
 
-				var worst_source_url = results["url"] ? results["url"] : results["hdurl"];
-				var best_source_url = results["hdurl"] ? results["hdurl"] : results["url"];
-				var source_url = $("#hd_toggle").hasClass("active") ? best_source_url : worst_source_url;
+				success : function(results){
 
-				$(".image-display").attr("src", "");
-				$(".video-display").attr("src", "");
+					console.log("AJAX Success Results:", results);
+					displayAPOD_results(results, true);
 
-				if (results.media_type == "video"){
+				},
 
-					$(".video-display").attr("src", source_url);
-					$(".image-container").hide();
-					$(".video-container").show();
+				error : function(xhr, status, error){
 
-				} else {
+					console.log("An AJAX error has occured - ", xhr, error);
 
-					$(".image-display").attr("src", source_url);
+					// Most likely the requested date does not exist
+
+					$(".title-h").addClass("prespacer");
+
+					$(".date-p").text(date_helpers.format_month[query_date.getMonth()] + " " + date_helpers.date_prefix(query_date.getDate()) + ", " + query_date.getFullYear());
+
+					if (xhr.status == 503){
+
+						$(".title-h").text("No Data | 503 - Server Error");
+						$(".description-p").text("Sorry! It looks like the NASA APOD API is currently down. This may be due to an issue with the API itself, or a temporary lack of mainentance due to issues with government funding.\n\nThe issue is temporary, but out of the control of this application. You are welcome to come back and try again at a later time!");
+					
+					} else {
+
+						$(".title-h").text("No Data");
+						$(".description-p").text("Sorry! It looks like either something went wrong, or the NASA APOD API does not have any data archived for this date.\n\nYou can still however continue browsing!");
+					
+					}
+
+					$(".download-url").attr("href", "");
+					
+					$(".image-display").attr("src", "");
+					$(".video-display").attr("src", "");
 					$(".video-container").hide();
-					$(".image-container").show();
+					$(".image-container").hide();
 
-				}
-				
-				$(".title-h").text(results.title);
-				$(".description-p").text(results.explanation.replace("Free Download: 2019 APOD Calendar", ""));
-				$(".download-url").attr("href", best_source_url);
-
-				if (results["copyright"] && results["copyright"].replace(/ /g, "") != ""){
-					$(".copyright-p").html(results.copyright + ' <i class="fa fa-copyright"></i>');
-					$(".copyright-p").show();
-				} else {
 					$(".copyright-p").hide();
+				},
+
+				complete: function(){
+					$("#Content").show();
+					$("#Loading").hide();
 				}
 
-			},
+			})
 
-			error : function(issue){
+		}
 
-				// Most likely the requested date does not exist
+		function displayAPOD_results(results, doCacheResults){
 
-				$(".date-p").text(date_helpers.format_month[query_date.getMonth()] + " " + date_helpers.date_prefix(query_date.getDate()) + ", " + query_date.getFullYear());
+			if (query_date != date){
+				// When the user navigates before the previous content has loaded, there is a risk that slow-loading content will over-write the current request content when it completes.
+				// To handle this, just return and let the next API request be the one to do the rendering.
+				return;
+			}
 
-				$(".title-h").text("No Data");
-				$(".description-p").text("Sorry! It looks like either something went wrong, or the NASA APOD API does not have any data archived for this date.\n\nYou can still however continue browsing!");
-				$(".download-url").attr("href", "");
+			if (doCacheResults){
+				console.log("Added ", query_url_date, " to cache. ", results);
+				APOD_cache[query_url_date] = results;
+			}
+		
+			$(".date-p").text(date_helpers.format_month[query_date.getMonth()] + " " + date_helpers.date_prefix(query_date.getDate()) + ", " + query_date.getFullYear());
 
-				
-				$(".image-display").attr("src", "");
-				$(".video-display").attr("src", "");
-				$(".video-container").hide();
+			var worst_source_url = results["url"] ? results["url"] : results["hdurl"];
+			var best_source_url = results["hdurl"] ? results["hdurl"] : results["url"];
+			var source_url = $("#hd_toggle").hasClass("active") ? best_source_url : worst_source_url;
+
+			$(".image-display").attr("src", "");
+			$(".video-display").attr("src", "");
+
+			if (results.media_type == "video"){
+
+				$(".video-display").attr("src", source_url);
 				$(".image-container").hide();
+				$(".video-container").show();
 
+			} else {
+
+				$(".image-display").attr("src", source_url);
+				$(".video-container").hide();
+				$(".image-container").show();
+
+			}
+			
+			$(".title-h").removeClass("prespacer");
+			$(".title-h").text(results.title);
+			$(".description-p").text( filter_p(results.explanation) );
+			$(".download-url").attr("href", best_source_url);
+
+			if (results["copyright"] && results["copyright"].replace(/ /g, "") != ""){
+				$(".copyright-p").html(results.copyright + ' <i class="fa fa-copyright"></i>');
+				$(".copyright-p").show();
+			} else {
 				$(".copyright-p").hide();
-			},
+			}
 
-			complete: function(){
+			if (!doCacheResults){
+				// When not called from an AJAX request, display content outside of AJAX's 'complete' event.
 				$("#Content").show();
 				$("#Loading").hide();
 			}
-			
 
-		})
+		}
+	}
+
+	function filter_p(text){
+		text = text.replace("Free Download: 2019 APOD Calendar", "");
+		
+		var issue0_index = text.indexOf("APOD in other languages");
+
+		if (issue0_index !== -1){
+			text = text.substring(0, issue0_index - 1);
+		}
+
+		var issue1_index = text.indexOf("Follow APOD on: ");
+
+		if (issue1_index !== -1){
+			text = text.substring(0, issue1_index - 1);
+		}
+
+		return text;
 	}
 
 

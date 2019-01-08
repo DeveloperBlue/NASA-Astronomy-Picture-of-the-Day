@@ -53,6 +53,10 @@ body {
   float: right;
 }
 
+.prespacer {
+  margin-top: 100px;
+}
+
 .date-div {
   text-align: center;
   margin-bottom: 20px;
@@ -86,14 +90,22 @@ body {
   height: 400px;
   width: 100%;
   margin: 0 auto;
-  padding-top: 50px;
   text-align: center;
-  padding-bottom: 50px;
+  line-height: 400px;
+}
+
+.loading-helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .loading-gif {
+  margin: 0 auto;
   width: 120px;
   height: 120px;
+  vertical-align: middle;
 }
 
 kbd {
