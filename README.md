@@ -12,10 +12,9 @@ his project recreates the APOD experience in a notably streamlined way, implemen
 #### Features 🚀
 - Calendar UI for Date Navigation
 - Keyboard Shortcut Navigation
- - *Left Arrow Key* - *Navigate Previous Date
- - *Right Arrow Key* - Navigate Next Date
- - *O Key* - **O**pen/Close Date Selector
-
+	- *Left Arrow Key* - *Navigate Previous Date
+	- *Right Arrow Key* - Navigate Next Date
+	- *O Key* - **O**pen/Close Date Selector
 - Toggle "Request Highest Resolution" photo when applicable
 - YouTube Video player support
 - Open full resolution source externally
