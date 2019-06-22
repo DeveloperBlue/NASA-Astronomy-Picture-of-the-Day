@@ -4,11 +4,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>NASA_APOD</title>
+    <title>Astronomy Picture of the Day</title>
+    <meta name="twitter:description" content="Astronomy Piture of the Day is a recreation of NASA's APoD experience, notably streamlined with a dark theme and built in navigation.">
+    <meta name="twitter:image" content="assets/img/android-chrome-512x512.png">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Astronomy Piture of the Day is a recreation of NASA's APoD experience, notably streamlined with a dark theme and built in navigation.">
+    <meta property="og:image" content="assets/img/android-chrome-512x512.png">
+    <meta name="twitter:title" content="Astronomy Picture of the Day">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/android-chrome-512x512.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Acme">
@@ -16,15 +29,16 @@
     <link rel="stylesheet" href="assets/css/Footer-Dark.css">
     <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
     <link rel="stylesheet" href="assets/css/styles.css">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
-	<link rel="manifest" href="/assets/favicons/site.webmanifest">
-	<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-	<meta name="msapplication-TileColor" content="#2d89ef">
-	<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
-	<meta name="theme-color" content="#ffffff">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-76476506-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-76476506-5');
+</script>
+
 </head>
 
 <body>
@@ -38,8 +52,8 @@
                         <div class="col-lg-7">
                             <div class="plugin-bsdate"></div>
                         </div>
-                        <div class="col-lg-5"><input type="text" placeholder="mm/dd/yyyy" id="date_modal_input" class="date-input"><button class="btn btn-outline-secondary btn-block" type="button" id="date_modal_today">Today</button><button class="btn btn-outline-secondary btn-block"
-                                type="button" id="date_modal_first">First Entry</button><button class="btn btn-primary btn-block date_modal_go" type="button">Continue</button></div>
+                        <div class="col-lg-5"><input type="text" id="date_modal_input" class="date-input" placeholder="mm/dd/yyyy"><button class="btn btn-outline-secondary btn-block" id="date_modal_today" type="button">Today</button><button class="btn btn-outline-secondary btn-block"
+                                id="date_modal_first" type="button">First Entry</button><button class="btn btn-primary btn-block date_modal_go" type="button">Continue</button></div>
                     </div>
                 </div>
             </div>
@@ -87,25 +101,25 @@
                         <p class="text-right">You can view the source for this project on GitHub&nbsp;<a href="https://bootstrapstudio.io/app/?shell=4#">here</a>.<br></p>
                     </div>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Close</button></div>
+                <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
             </div>
         </div>
     </div>
     <div></div>
     <div>
         <nav class="navbar navbar-dark navbar-expand-md text-light bg-dark navigation-clean">
-            <div class="container"><a class="navbar-brand text-light" href="index.html">NASA&nbsp;<i class="fas fa-space-shuttle"></i> | APOD</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="container"><a class="navbar-brand text-light" href="index.html">NASA&nbsp;<i class="fas fa-space-shuttle"></i> | APOD</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div
                     class="collapse navbar-collapse" id="navcol-1">
                     <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="https://github.com/DeveloperBlue/NASA-Astronomy-Picture-of-the-Day" target="_blank"><i class="icon ion-social-github"></i>&nbsp;Respository</a></li>
-                        <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">More from NASA</a>
-                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="https://apod.nasa.gov/apod/">APoD at NASA&nbsp;</a><a class="dropdown-item disabled" role="presentation" href="https://apod.nasa.gov/apod/archivepix.html" target="_blank">APoD Archives</a>
+                        <li class="nav-item" role="presentation"><a class="nav-link" id="navbar-about-trigger" href="#">About</a></li>
+                        <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">More</a>
+                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="https://michaelrooplall.bss.design/" target="_blank">Portfolio</a><a class="dropdown-item" role="presentation" href="https://apod.nasa.gov/apod/archivepix.html" target="_blank">APoD at NASA</a>
                                 <a
-                                    class="dropdown-item" role="presentation" href="https://apod.nasa.gov/cgi-bin/apod/apod_search" target="_blank">APoD Search</a>
+                                    class="dropdown-item" role="presentation" href="https://github.com/DeveloperBlue" target="_blank">Other Projects</a>
                             </div>
                         </li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="#" id="navbar-about-trigger">About</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="https://github.com/DeveloperBlue/NASA-Astronomy-Picture-of-the-Day" target="_blank"><i class="icon ion-social-github"></i>&nbsp;Respository</a></li>
                     </ul>
             </div>
     </div>
@@ -115,21 +129,21 @@
         <div class="date-div">
             <p class="text-center text-primary d-inline-block date-p">Loading . . .</p>
             <div class="btn-toolbar d-block">
-                <div class="btn-group" role="group"><button class="btn btn-outline-primary date-btn-group" type="button" id="date_previous_btn"><i class="fa fa-arrow-left"></i></button><button class="btn btn-outline-primary date-btn-group" type="button" id="date_modal_trigger">Search by Date&nbsp;<i class="fa fa-search"></i></button>
+                <div class="btn-group" role="group"><button class="btn btn-outline-primary date-btn-group" id="date_previous_btn" type="button"><i class="fa fa-arrow-left"></i></button><button class="btn btn-outline-primary date-btn-group" id="date_modal_trigger" type="button">Search by Date&nbsp;<i class="fa fa-search"></i></button>
                     <button
-                        class="btn btn-outline-primary date-btn-group" type="button" id="hd_toggle">HD</button><button class="btn btn-outline-primary date-btn-group" type="button" id="date_next_btn"><i class="fa fa-arrow-right"></i></button></div>
+                        class="btn btn-outline-primary date-btn-group" id="hd_toggle" type="button">HD</button><button class="btn btn-outline-primary date-btn-group" id="date_next_btn" type="button"><i class="fa fa-arrow-right"></i></button></div>
             </div>
         </div>
-        <div id="Loading" class="loading-div"><img src="assets/img/loading.gif" class="loading-gif"></div>
+        <div id="Loading" class="loading-div"><img class="loading-gif" src="assets/img/loading.gif"></div>
         <div id="Content">
-            <div class="video-container"><iframe width="100%" height="auto" allowfullscreen="" frameborder="0" src="https://www.youtube-nocookie.com/embed/14TrSQQsrNM?rel=0" class="video-display"></iframe></div>
+            <div class="video-container"><iframe allowfullscreen="" frameborder="0" src="https://www.youtube-nocookie.com/embed/14TrSQQsrNM?rel=0" class="video-display" width="100%" height="auto"></iframe></div>
             <div class="image-container"><img class="image-display"></div>
             <h1 class="text-primary title-h"><strong>Lorem Ipsum</strong><br></h1>
             <p class="text-justify text-white-50 description-p">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem
                 quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non
                 numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel
                 eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br></p>
-            <div class="clearfix"><a href="#" target="_blank" class="download-url">Full Resolution Source&nbsp;<i class="fa fa-external-link"></i></a></div>
+            <div class="clearfix"><a class="download-url" href="#" target="_blank">Full Resolution Source&nbsp;<i class="fa fa-external-link"></i></a></div>
             <p class="text-right text-primary copyright-p">Copyright Owner&nbsp;<i class="fa fa-copyright"></i><br></p>
         </div>
     </div>
@@ -142,15 +156,15 @@
                         <ul>
                             <li id="footer-about-trigger"><a href="#">About</a></li>
                             <li><a href="https://github.com/DeveloperBlue/NASA-Astronomy-Picture-of-the-Day">GitHub Repository</a></li>
-                            <li><a href="https://github.com/DeveloperBlue">Developer's GitHub</a></li>
+                            <li><a href="https://apod.nasa.gov/apod/archivepix.html">APoD at NASA</a></li>
                         </ul>
                     </div>
                     <div class="col-sm-6 col-md-3 item">
-                        <h3>NASA</h3>
+                        <h3>Developer</h3>
                         <ul>
-                            <li><a href="https://apod.nasa.gov/apod/">APoD at NASA</a></li>
-                            <li><a href="https://apod.nasa.gov/apod/archivepix.html">APoD Archives</a></li>
-                            <li><a href="https://apod.nasa.gov/cgi-bin/apod/apod_search">APoD Search</a></li>
+                            <li><a href="https://michaelrooplall.bss.design/">Portfolio</a></li>
+                            <li><a href="https://github.com/DeveloperBlue">GitHub</a></li>
+                            <li><a href="https://apod.nasa.gov/cgi-bin/apod/apod_search">LinkedIn</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6 item text">
@@ -158,7 +172,10 @@
                         <p class="text-justify" style="font-size:14px;">Astronomy Picture of the Day is a website provided by NASA and Michigan Technological University. According to the website, "Each day a different image or photograph of our universe is featured, along with a brief explanation written
                             by a professional astronomer." - Wikipedia<br></p>
                     </div>
-                    <div class="col item social"><a href="https://twitter.com/MichaelRooplall"><i class="icon ion-social-twitter"></i></a><a href="https://github.com/DeveloperBlue/NASA-Astronomy-Picture-of-the-Day"><i class="icon ion-social-github"></i></a><a href="https://twitter.com/MichaelRooplall"><i class="fas fa-space-shuttle"></i></a></div>
+                    <div class="col item social"><a href="https://twitter.com/MichaelRooplall"><i class="icon ion-social-twitter"></i></a><a href="https://github.com/DeveloperBlue/NASA-Astronomy-Picture-of-the-Day"><i class="icon ion-social-github"></i></a><a href="https://twitter.com/MichaelRooplall"><i class="fab fa-linkedin-in"></i></a>
+                        <a
+                            href="https://twitter.com/MichaelRooplall"><i class="fas fa-user-tie"></i></a>
+                    </div>
                 </div>
                 <p class="copyright">Michael Rooplall © 2018</p>
             </div>

@@ -165,7 +165,7 @@ $(document).ready(function(){
 
 					$(".title-h").addClass("prespacer");
 
-					$(".date-p").text(date_helpers.format_month[query_date.getMonth()] + " " + date_helpers.date_prefix(query_date.getDate()) + ", " + query_date.getFullYear());
+					$(".date-p").text(date_helpers.format_month[query_date.getMonth()] + " " + date_helpers.date_suffix(query_date.getDate()) + ", " + query_date.getFullYear());
 
 					if (xhr.status == 503){
 
@@ -211,7 +211,7 @@ $(document).ready(function(){
 				APOD_cache[query_url_date] = results;
 			}
 		
-			$(".date-p").text(date_helpers.format_month[query_date.getMonth()] + " " + date_helpers.date_prefix(query_date.getDate()) + ", " + query_date.getFullYear());
+			$(".date-p").text(date_helpers.format_month[query_date.getMonth()] + " " + date_helpers.date_suffix(query_date.getDate()) + ", " + query_date.getFullYear());
 
 			var worst_source_url = results["url"] ? results["url"] : results["hdurl"];
 			var best_source_url = results["hdurl"] ? results["hdurl"] : results["url"];
@@ -386,12 +386,13 @@ function setUrlParameter(key, value) {
 
 // Date Formatting
 
-
 date_helpers = {
+
+	format_day : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
 
 	format_month : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 	
-	date_prefix : function(date_num){
+	date_suffix : function(date_num){
 
 		date_num = date_num.toString();
 		var lastDigit = date_num[date_num.length - 1];

@@ -1,7 +1,7 @@
 # NASA | APOD 🚀
-##### Nasa's Astronomy Photo of the Day
+##### Nasa's Astronomy Picture of the Day
 
-his project recreates the APOD experience in a notably streamlined way, implementing a dark theme and naturally easier navigation.
+This project recreates the APOD experience in a notably streamlined way, implementing a dark theme and naturally easier navigation.
 
 > Astronomy Picture of the Day is a website provided by NASA and Michigan Technological University. According to the website, "Each day a different image or photograph of our universe is featured, along with a brief explanation written by a professional astronomer."
 [-Wikipedia](https://en.wikipedia.org/wiki/Astronomy_Picture_of_the_Day)
