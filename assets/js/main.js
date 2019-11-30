@@ -286,10 +286,14 @@ $(document).ready(function(){
 		displayAPOD(date);
 	})
 
-	function setDatePicker(new_date, skipUpdate){
-		$("#date_modal_input").val((new_date.getMonth() + 1) + "/" + new_date.getDate() + "/" + new_date.getFullYear());
+	function setDatePicker(new_date, skipUpdateCalendar, skipUpdateInput){
 
-		if (!skipUpdate){
+		if (!skipUpdateInput){
+			$("#date_modal_input").val((new_date.getMonth() + 1) + "/" + new_date.getDate() + "/" + new_date.getFullYear());
+		}
+		
+
+		if (!skipUpdateCalendar){
 			$(".plugin-bsdate").datepicker('update', new_date);
 		}
 		
@@ -301,6 +305,18 @@ $(document).ready(function(){
 
 	$("#date_modal_first").click(function(){
 		setDatePicker(last_date);
+	})
+
+	$("#date_modal_input").change(function(){
+
+		let goTo_date = $("#date_modal_input").val();
+
+		if (goTo_date.replace(/ /g, "") !== ""){
+
+			setDatePicker(new Date(goTo_date), null, true);
+
+		}
+		
 	})
 
 	// Plugin Setup
